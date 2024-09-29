@@ -2,42 +2,49 @@
 import React from "react";
 import {IonSearchbar} from "@ionic/react";
 import {Product} from "../product/ProductDetail";
+import {getProductByBarcode} from "../../services/FoodApiService";
 
 interface SearchProps {
     onProductFound: (product: Product) => void;
     onProductNotFound: () => void;
+    scannedBarcode?: string;
 }
 
-function handleInput(ev: any, onProductFound: (product: Product) => void, onProductNotFound: () => void) {
-    const target = ev.target as HTMLIonSearchbarElement;
-    const barcode = target.value;
+function handleInput(ev: any, onProductFound: (product: Product) => void, onProductNotFound: () => void, scannedBarcode?: string|null|undefined) {
+    let barcode = scannedBarcode;
 
-    fetch( `https://world.openfoodfacts.org/api/v2/product/${barcode}` ).then( response => response.json() )
-        .then( data => {
+    if( ev )
+    {
+        const target = ev.target as HTMLIonSearchbarElement;
+        barcode = target.value;
+    }
 
-            if( data.status === 0 )
-            {
-                onProductNotFound();
-                return;
-            }
+    if( !barcode )
+    {
+        return;
+    }
 
-            console.log( data );
-            const product = data.product;
-            onProductFound({
-                name: product.product_name_de,
-                ingredients: product.ingredients_text_de,
-                image: product.image_front_small_url,
-                nutritionGrade: product.nutrition_grades,
-                quantity: product.quantity,
-                category: product.generic_name_de
-            } );
-        } );
+    getProductByBarcode(barcode).then( product => {
+        if (product) {
+            onProductFound(product);
+        } else {
+            onProductNotFound();
+        }
+    }).catch( () => {
+        onProductNotFound();
+    });
 }
 
-const Search: React.FC<SearchProps> = ( {onProductFound, onProductNotFound} ) => {
+const Search: React.FC<SearchProps> = ( {onProductFound, onProductNotFound, scannedBarcode} ) => {
+
+    if( scannedBarcode )
+    {
+        handleInput( null, onProductFound, onProductNotFound, scannedBarcode )
+    }
+
     return (
         <div>
-            <IonSearchbar animated={true} placeholder={"Suchen"} enterkeyhint={"enter"} onIonChange={(ev) => handleInput(ev, onProductFound, onProductNotFound)}></IonSearchbar>
+            <IonSearchbar animated={true} placeholder={"Suchen"} enterkeyhint={"enter"} onIonChange={(ev) => handleInput(ev, onProductFound, onProductNotFound, null)}></IonSearchbar>
         </div>
     );
 };

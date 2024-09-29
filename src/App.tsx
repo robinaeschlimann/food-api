@@ -2,11 +2,13 @@ import {Redirect, Route} from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
+  IonicSafeString,
   IonLabel,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
   IonTabs,
+  IonToast,
   setupIonicReact
 } from '@ionic/react';
 import {IonReactRouter} from '@ionic/react-router';
@@ -42,17 +44,35 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import React from "react";
+import React, {useState} from "react";
+import {scanProduct} from "./services/ScannerService";
 
 setupIonicReact();
 
-const App: React.FC = () => (
+const App: React.FC = () => {
+
+  const [errorMessage, setErrorMessage] = useState<string|IonicSafeString>("");
+  const [scannedBarcode, setScannedBarcode] = useState<string>("");
+
+  async function doScan() {
+    scanProduct().then( barcode => {
+        setScannedBarcode( barcode );
+    }).catch( error => {
+      setErrorMessage( error.message );
+    });
+  }
+
+  function resetScannedBarcode() {
+    setScannedBarcode("");
+  }
+
+  return (
   <IonApp>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
           <Route exact path="/search">
-            <SearchPage />
+            <SearchPage scannedBarcode={scannedBarcode} resetScannedBarcode={resetScannedBarcode} />
           </Route>
           <Route exact path="/scanner">
             <ScannerPage />
@@ -66,14 +86,19 @@ const App: React.FC = () => (
             <IonIcon aria-hidden="true" icon={search} />
             <IonLabel>Suchen</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="scanner" href="/scanner">
+          <IonTabButton tab="scanner" onClick={doScan}>
             <IonIcon aria-hidden="true" icon={scan} />
             <IonLabel>Scannen</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
+      <IonToast
+          isOpen={!!errorMessage}
+          onDidDismiss={() => setErrorMessage("")}
+          message={errorMessage}
+          duration={2000} />
     </IonReactRouter>
   </IonApp>
-);
+)};
 
 export default App;
