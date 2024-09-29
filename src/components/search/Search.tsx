@@ -5,14 +5,22 @@ import {Product} from "../product/ProductDetail";
 
 interface SearchProps {
     onProductFound: (product: Product) => void;
+    onProductNotFound: (product: Product) => void;
 }
 
-function handleInput(ev: any, onProductFound: (product: Product) => void) {
+function handleInput(ev: any, onProductFound: (product: Product) => void, onProductNotFound: () => void) {
     const target = ev.target as HTMLIonSearchbarElement;
     const barcode = target.value;
 
     fetch( `https://world.openfoodfacts.org/api/v2/product/${barcode}` ).then( response => response.json() )
         .then( data => {
+
+            if( data.status === 0 )
+            {
+                onProductNotFound();
+                return;
+            }
+
             console.log( data );
             const product = data.product;
             onProductFound({
@@ -26,10 +34,10 @@ function handleInput(ev: any, onProductFound: (product: Product) => void) {
         } );
 }
 
-const Search: React.FC<SearchProps> = ( {onProductFound} ) => {
+const Search: React.FC<SearchProps> = ( {onProductFound, onProductNotFound} ) => {
     return (
         <div>
-            <IonSearchbar animated={true} placeholder={"Suchen"} enterkeyhint={"enter"} onIonChange={(ev) => handleInput(ev, onProductFound)}></IonSearchbar>
+            <IonSearchbar animated={true} placeholder={"Suchen"} enterkeyhint={"enter"} onIonChange={(ev) => handleInput(ev, onProductFound, onProductNotFound)}></IonSearchbar>
         </div>
     );
 };
