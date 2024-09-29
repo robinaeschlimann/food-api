@@ -12,7 +12,7 @@ import {
 import {IonReactRouter} from '@ionic/react-router';
 import {scan, search} from 'ionicons/icons';
 import SearchPage from './pages/SearchPage';
-import Tab2 from './pages/Tab2';
+import ScannerPage from './pages/ScannerPage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -42,6 +42,7 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import React from "react";
 
 setupIonicReact();
 
@@ -53,8 +54,8 @@ const App: React.FC = () => (
           <Route exact path="/search">
             <SearchPage />
           </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
+          <Route exact path="/scanner">
+            <ScannerPage />
           </Route>
           <Route exact path="/">
             <Redirect to="/search" />
@@ -65,7 +66,7 @@ const App: React.FC = () => (
             <IonIcon aria-hidden="true" icon={search} />
             <IonLabel>Suchen</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
+          <IonTabButton tab="scanner" href="/scanner">
             <IonIcon aria-hidden="true" icon={scan} />
             <IonLabel>Scannen</IonLabel>
           </IonTabButton>
