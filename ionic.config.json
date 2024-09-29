@@ -1,0 +1,7 @@
+{
+  "name": "Food API",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
