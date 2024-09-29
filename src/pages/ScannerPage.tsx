@@ -1,4 +1,4 @@
-import {IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToast, IonToolbar} from '@ionic/react';
+import {IonButton, IonContent, IonHeader, IonicSafeString, IonPage, IonTitle, IonToast, IonToolbar} from '@ionic/react';
 import './Tab2.css';
 import {BarcodeScanner} from "@capacitor-mlkit/barcode-scanning";
 import React, {useState} from "react";
@@ -10,7 +10,7 @@ const ScannerPage: React.FC = () => {
 
         return camera === "granted" || camera === "limited";
     }
-    const [errorMessage, setErrorMessage] = useState<string|null>(null);
+    const [errorMessage, setErrorMessage] = useState<string|IonicSafeString>("");
 
     async function scan() {
         BarcodeScanner.isSupported().then( async (result) => {
@@ -66,7 +66,7 @@ const ScannerPage: React.FC = () => {
 
         <IonToast
             isOpen={!!errorMessage}
-            onDidDismiss={() => setErrorMessage(null)}
+            onDidDismiss={() => setErrorMessage("")}
             message={errorMessage}
             duration={2000} />
       </IonContent>
