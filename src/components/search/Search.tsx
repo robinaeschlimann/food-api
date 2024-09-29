@@ -5,7 +5,7 @@ import {Product} from "../product/ProductDetail";
 
 interface SearchProps {
     onProductFound: (product: Product) => void;
-    onProductNotFound: (product: Product) => void;
+    onProductNotFound: () => void;
 }
 
 function handleInput(ev: any, onProductFound: (product: Product) => void, onProductNotFound: () => void) {
