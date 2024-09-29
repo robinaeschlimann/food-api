@@ -1,0 +1,41 @@
+.product-detail-container {
+    padding: 16px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+}
+
+.product-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #ddd;
+}
+
+.product-name h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.product-image {
+    width: 120px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.ion-padding {
+    padding: 16px;
+}
+
+IonItem {
+    --padding-start: 0px;
+}
+
+IonLabel {
+    font-weight: bold;
+    color: #555;
+}
