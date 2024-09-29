@@ -12,7 +12,7 @@ function handleInput(ev: any) {
         } );
 }
 
-const Search: React = () => {
+const Search: React.FC = () => {
     return (
         <div>
             <IonSearchbar animated={true} placeholder={"Suchen"} enterkeyhint={"enter"} onIonChange={(ev) => handleInput(ev)}></IonSearchbar>
