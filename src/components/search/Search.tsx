@@ -26,10 +26,10 @@ function handleInput(ev: any, onProductFound: (product: Product) => void) {
         } );
 }
 
-const Search: React.FC = ( {...props}: SearchProps ) => {
+const Search: React.FC<SearchProps> = ( {onProductFound} ) => {
     return (
         <div>
-            <IonSearchbar animated={true} placeholder={"Suchen"} enterkeyhint={"enter"} onIonChange={(ev) => handleInput(ev, props.onProductFound)}></IonSearchbar>
+            <IonSearchbar animated={true} placeholder={"Suchen"} enterkeyhint={"enter"} onIonChange={(ev) => handleInput(ev, onProductFound)}></IonSearchbar>
         </div>
     );
 };

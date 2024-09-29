@@ -5,7 +5,7 @@ import React, {useState} from "react";
 import {ProductDetail, Product} from "../components/product/ProductDetail";
 
 const Tab1: React.FC = () => {
-    const [product, setProduct] = useState<Product>(null);
+    const [product, setProduct] = useState<Product|null>(null);
 
     return (
         <IonPage>

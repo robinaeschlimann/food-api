@@ -59,4 +59,5 @@ const ProductDetail: React.FC<ProductProps> = ({ product } ) => {
     );
 }
 
-export {ProductDetail, Product};
+export {ProductDetail};
+export type {Product};
